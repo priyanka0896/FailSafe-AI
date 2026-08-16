@@ -1,0 +1,4 @@
+Equipment,Component,Failure Mode,Causes,Effects,Severity,Occurrence,Detection,RPN,Risk Level,Recommended Actions
+hydraulic system,hydraulic pump,pump cavitation,inadequate inlet pressure; restricted suction line; incorrect operating conditions,pump damage; reduced flow; system pressure instability,9,4,5,180,HIGH,Inspect suction line; Monitor inlet pressure; Check operating conditions
+hydraulic system,hydraulic hose,hose leakage,abrasion; aging; excessive pressure,fluid loss; pressure reduction; safety risk,9,5,4,180,HIGH,Inspect hose condition; Replace damaged hoses; Monitor pressure
+hydraulic system,hydraulic seal,seal degradation,wear; temperature exposure; material degradation,fluid leakage; pressure loss; equipment downtime,8,5,4,160,HIGH,Inspect seal condition; Monitor leakage; Establish preventive replacement intervals

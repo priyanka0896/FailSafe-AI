@@ -1,0 +1,31 @@
+Test Case,Expected Failure,Predicted #1,Expected Rank,Top-1 Hit,Top-3 Hit,Detected Equipment
+V01,hose leakage,hose leakage,1,PASS,PASS,hydraulic system
+V02,hose leakage,pump cavitation,2,FAIL,PASS,hydraulic system
+V03,hose leakage,hose leakage,1,PASS,PASS,hydraulic system
+V04,pump cavitation,pump cavitation,1,PASS,PASS,hydraulic system
+V05,pump cavitation,pump cavitation,1,PASS,PASS,hydraulic system
+V06,pump cavitation,pump cavitation,1,PASS,PASS,hydraulic system
+V07,seal degradation,hose leakage,2,FAIL,PASS,hydraulic system
+V08,seal degradation,seal degradation,1,PASS,PASS,None
+V09,seal degradation,seal degradation,1,PASS,PASS,hydraulic system
+V10,actuator slow response,valve sticking,2,FAIL,PASS,pneumatic system
+V11,actuator slow response,actuator slow response,1,PASS,PASS,pneumatic system
+V12,actuator slow response,actuator slow response,1,PASS,PASS,pneumatic system
+V13,valve sticking,valve sticking,1,PASS,PASS,pneumatic system
+V14,valve sticking,valve sticking,1,PASS,PASS,pneumatic system
+V15,valve sticking,valve sticking,1,PASS,PASS,pneumatic system
+V16,bearing wear,bearing wear,1,PASS,PASS,conveyor system
+V17,bearing wear,bearing wear,1,PASS,PASS,conveyor system
+V18,bearing wear,bearing wear,1,PASS,PASS,industrial mixer
+V19,belt misalignment,bearing wear,2,FAIL,PASS,conveyor system
+V20,belt misalignment,bearing wear,2,FAIL,PASS,conveyor system
+V21,belt misalignment,bearing wear,2,FAIL,PASS,conveyor system
+V22,bearing overheating,bearing overheating,1,PASS,PASS,electric motor
+V23,bearing overheating,bearing overheating,1,PASS,PASS,electric motor
+V24,bearing overheating,bearing wear,Not Found,FAIL,FAIL,conveyor system
+V25,impeller wear,pump cavitation,4,FAIL,FAIL,hydraulic system
+V26,impeller wear,pump cavitation,2,FAIL,PASS,hydraulic system
+V27,impeller wear,None,Not Found,FAIL,FAIL,None
+V28,shaft misalignment,bearing wear,2,FAIL,PASS,industrial mixer
+V29,shaft misalignment,bearing wear,3,FAIL,PASS,conveyor system
+V30,shaft misalignment,bearing wear,2,FAIL,PASS,industrial mixer

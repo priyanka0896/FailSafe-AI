@@ -1,0 +1,11 @@
+Test Case,Expected Failure,Predicted #1,Expected Rank,Top-1 Hit,Top-3 Hit,Detected Equipment
+T01,hose leakage,hose leakage,1,PASS,PASS,hydraulic system
+T02,pump cavitation,pump cavitation,1,PASS,PASS,hydraulic system
+T03,seal degradation,seal degradation,1,PASS,PASS,hydraulic system
+T04,actuator slow response,actuator slow response,1,PASS,PASS,pneumatic system
+T05,valve sticking,valve sticking,1,PASS,PASS,pneumatic system
+T06,bearing wear,bearing wear,1,PASS,PASS,conveyor system
+T07,belt misalignment,belt misalignment,1,PASS,PASS,conveyor system
+T08,bearing overheating,bearing overheating,1,PASS,PASS,electric motor
+T09,impeller wear,impeller wear,1,PASS,PASS,industrial pump
+T10,shaft misalignment,shaft misalignment,1,PASS,PASS,industrial mixer

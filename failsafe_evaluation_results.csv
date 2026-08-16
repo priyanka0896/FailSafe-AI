@@ -1,0 +1,11 @@
+Test Case,Description,Expected Failure,Predicted #1,Expected Rank,Top-1 Hit,Top-3 Hit,Detected Equipment
+T01,Hydraulic system is losing fluid around the hose and pressure is dropping intermittently.,hose leakage,hose leakage,1,PASS,PASS,hydraulic system
+T02,Hydraulic equipment shows unstable pressure and unusual pump noise during operation.,pump cavitation,pump cavitation,1,PASS,PASS,hydraulic system
+T03,Hydraulic system has gradual fluid leakage and reduced pressure after extended use.,seal degradation,hose leakage,3,FAIL,PASS,hydraulic system
+T04,Pneumatic actuator is moving slowly and the system is showing signs of air leakage.,actuator slow response,actuator slow response,1,PASS,PASS,pneumatic system
+T05,Pneumatic control valve intermittently sticks and actuator movement becomes inconsistent.,valve sticking,valve sticking,1,PASS,PASS,pneumatic system
+T06,Conveyor is vibrating heavily and the drive bearing is becoming hot during continuous operation.,bearing wear,bearing wear,1,PASS,PASS,conveyor system
+T07,Conveyor belt is drifting sideways and material is spilling from the line.,belt misalignment,bearing wear,2,FAIL,PASS,conveyor system
+T08,Electric motor temperature is increasing rapidly and abnormal bearing heat is observed.,bearing overheating,bearing overheating,1,PASS,PASS,electric motor
+T09,Industrial pump has reduced flow and declining process efficiency over time.,impeller wear,impeller wear,1,PASS,PASS,industrial pump
+T10,Industrial mixer is experiencing excessive vibration and possible shaft alignment issues.,shaft misalignment,shaft misalignment,1,PASS,PASS,industrial mixer

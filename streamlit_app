@@ -1,0 +1,516 @@
+import streamlit as st
+from failsafe_ai import analyze_description
+
+
+# ============================================================
+# PAGE CONFIGURATION
+# ============================================================
+
+st.set_page_config(
+    page_title="FailSafe AI",
+    page_icon="⚙️",
+    layout="wide"
+)
+
+
+# ============================================================
+# CUSTOM CSS
+# ============================================================
+
+st.markdown("""
+<style>
+
+.main {
+    padding-top: 1rem;
+}
+
+.title {
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 0px;
+}
+
+.subtitle {
+    font-size: 18px;
+    color: #666666;
+    margin-top: 0px;
+}
+
+.section-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.diagnosis-box {
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #dddddd;
+    background-color: #f8f9fa;
+}
+
+.diagnosis-title {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.action-box {
+    padding: 12px 16px;
+    border-radius: 8px;
+    background-color: #f5f5f5;
+    margin-bottom: 8px;
+}
+
+.footer {
+    text-align: center;
+    color: #888888;
+    font-size: 13px;
+    margin-top: 40px;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+
+# ============================================================
+# HEADER
+# ============================================================
+
+st.markdown(
+    '<div class="title">⚙️ FailSafe AI</div>',
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    '<div class="subtitle">'
+    'Context-Aware FMEA Risk Decision Support'
+    '</div>',
+    unsafe_allow_html=True
+)
+
+st.divider()
+
+
+# ============================================================
+# SIDEBAR
+# ============================================================
+
+with st.sidebar:
+
+    st.header("About FailSafe AI")
+
+    st.write(
+        """
+        FailSafe AI analyzes an equipment problem description
+        and prioritizes potential failure modes using:
+
+        • Equipment context
+        • Symptom matching
+        • FMEA relevance
+        • Risk Priority Number (RPN)
+        """
+    )
+
+    st.divider()
+
+    st.subheader("Decision Logic")
+
+    st.write(
+        """
+        **Priority Score**
+
+        Relevance × 2 + RPN
+
+        Higher scores indicate a stronger combination of
+        diagnostic relevance and FMEA risk.
+        """
+    )
+
+    st.divider()
+
+    st.caption(
+        "Prototype • Synthetic FMEA Knowledge Base"
+    )
+
+
+# ============================================================
+# INPUT SECTION
+# ============================================================
+
+st.markdown(
+    '<div class="section-title">'
+    'Describe the equipment problem'
+    '</div>',
+    unsafe_allow_html=True
+)
+
+description = st.text_area(
+    "Problem description",
+    placeholder=(
+        "Example: Hydraulic system is losing fluid around "
+        "the hose and pressure is dropping intermittently."
+    ),
+    height=130,
+    label_visibility="collapsed"
+)
+
+
+# ============================================================
+# EXAMPLE SCENARIOS
+# ============================================================
+
+st.write("**Try an example:**")
+
+example_col1, example_col2, example_col3 = st.columns(3)
+
+with example_col1:
+
+    hydraulic_button = st.button(
+        "Hydraulic leakage",
+        use_container_width=True
+    )
+
+with example_col2:
+
+    conveyor_button = st.button(
+        "Conveyor vibration",
+        use_container_width=True
+    )
+
+with example_col3:
+
+    mixer_button = st.button(
+        "Mixer vibration",
+        use_container_width=True
+    )
+
+
+# Use example text if a button was clicked
+
+if hydraulic_button:
+
+    description = (
+        "Hydraulic system is losing fluid around "
+        "the hose and pressure is dropping intermittently."
+    )
+
+elif conveyor_button:
+
+    description = (
+        "Conveyor is vibrating heavily and the drive "
+        "bearing is becoming hot during continuous operation."
+    )
+
+elif mixer_button:
+
+    description = (
+        "Industrial mixer is experiencing excessive "
+        "vibration and possible shaft alignment issues."
+    )
+
+
+# ============================================================
+# ANALYZE BUTTON
+# ============================================================
+
+analyze_button = st.button(
+    "🔍 ANALYZE FAILURE",
+    type="primary",
+    use_container_width=True
+)
+
+
+# ============================================================
+# ANALYSIS
+# ============================================================
+
+if analyze_button:
+
+    if not description.strip():
+
+        st.warning(
+            "Please enter an equipment problem description."
+        )
+
+    else:
+
+        results, detected_equipment = analyze_description(
+            description
+        )
+
+        if not results:
+
+            st.error(
+                "No sufficiently relevant failure modes "
+                "were identified."
+            )
+
+        else:
+
+            # Keep top five results
+            results = results[:5]
+
+            highest = results[0]
+
+
+            # ====================================================
+            # DETECTED EQUIPMENT
+            # ====================================================
+
+            st.divider()
+
+            st.markdown(
+                '<div class="section-title">'
+                'Detected Equipment Context'
+                '</div>',
+                unsafe_allow_html=True
+            )
+
+            if detected_equipment:
+
+                st.info(
+                    f"⚙️ **{detected_equipment.title()}**"
+                )
+
+            else:
+
+                st.warning(
+                    "Equipment context could not be confidently detected."
+                )
+
+
+            # ====================================================
+            # PRIORITY DIAGNOSIS
+            # ====================================================
+
+            st.markdown(
+                '<div class="section-title">'
+                'Priority Diagnosis'
+                '</div>',
+                unsafe_allow_html=True
+            )
+
+            st.markdown(
+                '<div class="diagnosis-box">',
+                unsafe_allow_html=True
+            )
+
+            st.markdown(
+                f'<div class="diagnosis-title">'
+                f'#1 &nbsp; {highest["failure_mode"].title()}'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+
+            st.write(
+                f'**Component:** '
+                f'{highest["component"].title()}'
+            )
+
+            st.markdown(
+                '</div>',
+                unsafe_allow_html=True
+            )
+
+
+            # ====================================================
+            # KEY METRICS
+            # ====================================================
+
+            st.write("")
+
+            metric1, metric2, metric3, metric4 = st.columns(4)
+
+            with metric1:
+
+                st.metric(
+                    "RPN",
+                    highest["RPN"]
+                )
+
+            with metric2:
+
+                st.metric(
+                    "Risk Level",
+                    highest["Risk Level"]
+                )
+
+            with metric3:
+
+                st.metric(
+                    "Relevance",
+                    highest["Relevance Score"]
+                )
+
+            with metric4:
+
+                st.metric(
+                    "Priority Score",
+                    highest["Priority Score"]
+                )
+
+
+            # ====================================================
+            # DIAGNOSTIC EVIDENCE
+            # ====================================================
+
+            st.markdown(
+                '<div class="section-title">'
+                'Diagnostic Evidence'
+                '</div>',
+                unsafe_allow_html=True
+            )
+
+            strong_matches = highest.get(
+                "Strong Matches",
+                ""
+            )
+
+            medium_matches = highest.get(
+                "Medium Matches",
+                ""
+            )
+
+            if strong_matches:
+
+                st.write(
+                    f"🔴 **Strong symptom matches:** "
+                    f"{strong_matches}"
+                )
+
+            if medium_matches:
+
+                st.write(
+                    f"🟡 **Supporting symptom matches:** "
+                    f"{medium_matches}"
+                )
+
+            if not strong_matches and not medium_matches:
+
+                st.write(
+                    "No specific diagnostic symptom clues matched."
+                )
+
+
+            # ====================================================
+            # FMEA DETAILS
+            # ====================================================
+
+            st.markdown(
+                '<div class="section-title">'
+                'FMEA Risk Details'
+                '</div>',
+                unsafe_allow_html=True
+            )
+
+            fmea_col1, fmea_col2 = st.columns(2)
+
+            with fmea_col1:
+
+                st.write("**Potential Causes**")
+
+                for cause in highest["causes"]:
+
+                    st.write(
+                        f"• {cause}"
+                    )
+
+            with fmea_col2:
+
+                st.write("**Potential Effects**")
+
+                for effect in highest["effects"]:
+
+                    st.write(
+                        f"• {effect}"
+                    )
+
+
+            # ====================================================
+            # RECOMMENDED ACTIONS
+            # ====================================================
+
+            st.markdown(
+                '<div class="section-title">'
+                'Recommended First Actions'
+                '</div>',
+                unsafe_allow_html=True
+            )
+
+            for action in highest["actions"]:
+
+                st.markdown(
+                    f'<div class="action-box">'
+                    f'✓ &nbsp; {action}'
+                    f'</div>',
+                    unsafe_allow_html=True
+                )
+
+
+            # ====================================================
+            # ALTERNATIVE FAILURE MODES
+            # ====================================================
+
+            if len(results) > 1:
+
+                st.markdown(
+                    '<div class="section-title">'
+                    'Alternative Failure Modes'
+                    '</div>',
+                    unsafe_allow_html=True
+                )
+
+                alternative_data = []
+
+                for rank, result in enumerate(
+                    results[1:4],
+                    start=2
+                ):
+
+                    alternative_data.append(
+                        {
+                            "Rank": rank,
+                            "Failure Mode":
+                                result["failure_mode"].title(),
+                            "Component":
+                                result["component"].title(),
+                            "RPN":
+                                result["RPN"],
+                            "Relevance":
+                                result["Relevance Score"],
+                            "Priority":
+                                result["Priority Score"]
+                        }
+                    )
+
+                st.dataframe(
+                    alternative_data,
+                    use_container_width=True,
+                    hide_index=True
+                )
+
+
+            # ====================================================
+            # DISCLAIMER
+            # ====================================================
+
+            st.divider()
+
+            st.caption(
+                "FailSafe AI is a decision-support prototype. "
+                "Results should be reviewed by a qualified engineer "
+                "before maintenance or operational decisions."
+            )
+
+
+# ============================================================
+# FOOTER
+# ============================================================
+
+st.markdown(
+    '<div class="footer">'
+    'FailSafe AI • Context-Aware FMEA Risk Decision Support • Prototype'
+    '</div>',
+    unsafe_allow_html=True
+)
